@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.client.expectBody
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
-class IntegrationTestsKotest(
+class IntegrationTests(
     @Autowired val restClient: RestTestClient
 ) : FunSpec({
     test("Assert article page title, content and status code") {
