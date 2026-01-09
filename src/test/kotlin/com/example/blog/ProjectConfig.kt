@@ -1,4 +1,4 @@
-package com.optravis.tp.core.testutil
+package com.example.blog
 
 import io.kotest.core.config.AbstractProjectConfig
 import io.kotest.extensions.spring.SpringExtension
