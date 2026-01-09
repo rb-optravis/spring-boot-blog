@@ -27,12 +27,17 @@ class IntegrationTests(@Autowired val restClient: RestTestClient) {
         restClient.get().uri("/")
             .exchangeSuccessfully()
             .expectBody<String>()
-            .value { assertThat(it).contains("<h1>Blog</h1>", "Blog") }
+            .value { assertThat(it).contains("<h1>Blog</h1>", "Lorem") }
     }
 
     @Test
     fun `Assert article page title, content and status code`() {
-        println(">> TODO")
+        println(">> Assert article page title, content and status code")
+        val title = "Lorem"
+        restClient.get().uri("/article/${title.toSlug()}")
+            .exchangeSuccessfully()
+            .expectBody<String>()
+            .value { assertThat(it).contains(title, "Lorem", "dolor sit amet") }
     }
 
     @AfterAll
