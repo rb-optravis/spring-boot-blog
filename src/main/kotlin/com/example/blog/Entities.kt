@@ -24,9 +24,10 @@ data class Article(
 
 @Table("users")
 data class User(
-    val login: String,
+    val username: String,
     val firstname: String,
     val lastname: String,
     val description: String? = null,
     @Id val id: Long? = null
 )
+

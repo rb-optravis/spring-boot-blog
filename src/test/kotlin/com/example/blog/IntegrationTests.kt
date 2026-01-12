@@ -1,6 +1,8 @@
 package com.example.blog
 
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
@@ -35,5 +37,26 @@ class IntegrationTests(
                     it shouldContain substring
                 }
             }
+    }
+
+    test("Should create user") {
+        val createUser = UserController.CreateUser(
+            username = "test_user_123",
+            firstname = "test",
+            lastname = "user"
+        )
+
+        restClient.post().uri("/api/user/")
+            .body(createUser)
+            .header("X-TenantID", "tenant_1")
+            .exchangeSuccessfully()
+            .expectBody<User>()
+            .value {
+                it.shouldNotBeNull()
+                it.username shouldBe createUser.username
+                it.firstname shouldBe createUser.firstname
+                it.lastname shouldBe createUser.lastname
+            }
+
     }
 })

@@ -1,18 +1,20 @@
-CREATE TABLE IF NOT EXISTS "users" (
-                                       "ID" BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                       "LOGIN" VARCHAR(255) NOT NULL UNIQUE,
-    "FIRSTNAME" VARCHAR(255) NOT NULL,
-    "LASTNAME" VARCHAR(255) NOT NULL,
-    "DESCRIPTION" TEXT
+CREATE TABLE IF NOT EXISTS users (
+                                     id BIGSERIAL PRIMARY KEY,
+                                     username VARCHAR(255) NOT NULL,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    description TEXT
     );
 
-CREATE TABLE IF NOT EXISTS "article" (
-                                         "ID" BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                         "TITLE" VARCHAR(255) NOT NULL,
-    "HEADLINE" VARCHAR(500) NOT NULL,
-    "CONTENT" TEXT NOT NULL,
-    "author_id" BIGINT NOT NULL,
-    "SLUG" VARCHAR(255) NOT NULL UNIQUE,
-    "ADDED_AT" TIMESTAMP NOT NULL,
-    FOREIGN KEY ("author_id") REFERENCES "users"("ID")
+CREATE TABLE IF NOT EXISTS article (
+                                       id BIGSERIAL PRIMARY KEY,
+                                       title VARCHAR(255) NOT NULL,
+    headline VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author_id BIGINT NOT NULL,
+    slug VARCHAR(255) NOT NULL,
+    added_at TIMESTAMP NOT NULL,
+    CONSTRAINT fk_article_author
+    FOREIGN KEY (author_id)
+    REFERENCES users(id)
     );

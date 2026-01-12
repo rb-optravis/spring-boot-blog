@@ -1,8 +1,11 @@
 package com.example.blog
 
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
@@ -45,8 +48,33 @@ class UserController(private val repository: UserRepository) {
     @GetMapping("/")
     fun findAll() = repository.findAll()
 
-    @GetMapping("/{login}")
-    fun findOne(@PathVariable login: String) =
-        repository.findByLogin(login)
+    @GetMapping("/{username}")
+    fun findOne(@PathVariable username: String) =
+        repository.findByUsername(username)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist")
+
+    @PostMapping("/")
+    fun createUser(@RequestBody userDto: CreateUser): ResponseEntity<User> {
+        val savedUser = repository.save(userDto.toEntity())
+        // By using ResponseEntity, have control over: status code, headers, body
+        // Returning the object directly serializes the object and returns a 200 OK status
+        return ResponseEntity.ok(savedUser)
+    }
+
+    fun CreateUser.toEntity(): User {
+        return User(
+            username = this.username,
+            firstname = this.firstname,
+            lastname = this.lastname,
+            description = this.description
+        )
+    }
+
+    data class CreateUser(
+        val username: String,
+        val firstname: String,
+        val lastname: String,
+        val description: String? = null,
+    )
+
 }

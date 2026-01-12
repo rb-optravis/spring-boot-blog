@@ -1,7 +1,6 @@
 package com.example.blog
 
 import com.ninjasquad.springmockk.MockkBean
-import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.every
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,9 +36,9 @@ class HttpControllersTests(
         mockMvc.perform(get("/api/article/").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("\$.[0].author.login").value(johnDoe.login))
+            .andExpect(jsonPath("\$.[0].author.login").value(johnDoe.username))
             .andExpect(jsonPath("\$.[0].slug").value(lorem5Article.slug))
-            .andExpect(jsonPath("\$.[1].author.login").value(johnDoe.login))
+            .andExpect(jsonPath("\$.[1].author.login").value(johnDoe.username))
             .andExpect(jsonPath("\$.[1].slug").value(ipsumArticle.slug))
     }
 
@@ -49,7 +48,8 @@ class HttpControllersTests(
         mockMvc.perform(get("/api/user/").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("\$.[0].login").value(johnDoe.login))
-            .andExpect(jsonPath("\$.[1].login").value(janeDoe.login))
+            .andExpect(jsonPath("\$.[0].login").value(johnDoe.username))
+            .andExpect(jsonPath("\$.[1].login").value(janeDoe.username))
     }
+
 })

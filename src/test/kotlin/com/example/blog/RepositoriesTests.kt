@@ -27,9 +27,8 @@ class RepositoriesTest(
         assertThat(found).isEqualTo(article)
     }
 
-
-    test("When findByLogin then return User") {
-        val user = userRepository.findByLogin(johnDoe.login)
+    test("When findByUsername then return User") {
+        val user = userRepository.findByUsername(johnDoe.username)
         assertThat(user).isEqualTo(johnDoe)
     }
 })
