@@ -63,5 +63,5 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
-	systemProperty("kotest.framework.config.fqn", "com.optravis.tp.core.testutil.ProjectConfig")
+	systemProperty("kotest.framework.config.fqn", "com.example.blog.ProjectConfig")
 }
