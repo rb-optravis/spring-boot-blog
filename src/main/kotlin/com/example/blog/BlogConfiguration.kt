@@ -29,23 +29,26 @@ class BlogConfiguration {
     // - ApplicationRunner is a functional interface (an interface with a single abstract method).
     //    - By using Kotlin's SAM conversion we can directly implement the single method with a lambda.
     = ApplicationRunner {
-        val johnDoe = userRepository.save(User("johnDoe", "John", "Doe"))
-        articleRepository.save(
-            Article(
-                title = "Lorem",
-                headline = "Lorem",
-                content = "dolor sit amet",
-                author = AggregateReference.to(johnDoe.id!!)
-            )
-        )
+        // Make sure that we only create a single user with two articles.
+        // We need to check first because Postgres persists the data.
+        val johnDoe = User("johnDoe", "John", "Doe")
+        val johnDoeSaved = userRepository.findByUsername(johnDoe.username)
+            ?: userRepository.save(User("johnDoe", "John", "Doe"))
 
-        articleRepository.save(
-            Article(
-                title = "Ipsum",
-                headline = "Ipsum",
-                content = "dolor sit amet",
-                author = AggregateReference.to(johnDoe.id)
-            )
+        val loremArticle = Article(
+            title = "Lorem",
+            headline = "Lorem",
+            content = "dolor sit amet",
+            author = AggregateReference.to(johnDoeSaved.id!!)
         )
+        articleRepository.findBySlug(loremArticle.slug) ?: articleRepository.save(loremArticle)
+
+        val ipsumArticle = Article(
+            title = "Ipsum",
+            headline = "Ipsum",
+            content = "dolor sit amet",
+            author = AggregateReference.to(johnDoeSaved.id)
+        )
+        articleRepository.findBySlug(ipsumArticle.slug) ?: articleRepository.save(ipsumArticle)
     }
 }

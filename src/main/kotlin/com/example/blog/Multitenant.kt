@@ -1,9 +1,7 @@
 package com.example.blog
 
-import com.zaxxer.hikari.HikariDataSource
 import jakarta.servlet.*
 import jakarta.servlet.http.HttpServletRequest
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean

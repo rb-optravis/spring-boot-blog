@@ -54,11 +54,15 @@ class UserController(private val repository: UserRepository) {
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist")
 
     @PostMapping("/")
-    fun createUser(@RequestBody userDto: CreateUser): ResponseEntity<User> {
-        val savedUser = repository.save(userDto.toEntity())
+    fun createUser(@RequestBody userDto: CreateUser): User {
+        // TODO: Return the user if it already exists -> Bad solution. But it works for now.
+        //   - In reality we should throw an error if someone tries to create a user
+        //     that already exists -> Verify by test that that is the case.
+        val savedUser = repository.findByUsername(userDto.username) ?: repository.save(userDto.toEntity())
         // By using ResponseEntity, have control over: status code, headers, body
         // Returning the object directly serializes the object and returns a 200 OK status
-        return ResponseEntity.ok(savedUser)
+        // We use this whenever possible, otherwise we use an ResponseEntity.
+        return savedUser
     }
 
     fun CreateUser.toEntity(): User {

@@ -18,6 +18,7 @@ class IntegrationTests(
     test("Assert article page title, content and status code") {
         val title = "Lorem"
         restClient.get().uri("/article/${title.toSlug()}")
+            .header("X-TenantID", "tenant_1")
             .exchangeSuccessfully()
             .expectBody<String>()
             .value {
@@ -30,6 +31,7 @@ class IntegrationTests(
     test("Assert blog page title, content and status code") {
         println(">> Assert blog page title, content and status code")
         restClient.get().uri("/")
+            .header("X-TenantID", "tenant_1")
             .exchangeSuccessfully()
             .expectBody<String>()
             .value {
@@ -40,6 +42,10 @@ class IntegrationTests(
     }
 
     test("Should create user") {
+        // What is currently missing:
+        // - Security (Check if we are allowed to use the header)
+        // - Test is currently polluting the database. Transactional does not work because we are using an HTTP
+        //   call.
         val createUser = UserController.CreateUser(
             username = "test_user_123",
             firstname = "test",
