@@ -1,0 +1,81 @@
+openapi: 3.0.1
+info:
+  title: Blog
+  version: v0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /article:
+    get:
+      tags:
+        - article
+      summary: Get all articles
+      operationId: findAllArticles
+      responses:
+        '200':
+          description: A list of articles
+  /article/{slug}:
+    get:
+      tags:
+        - article
+      summary: Get an article by slug
+      operationId: findArticleBySlug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An article
+  /user:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      operationId: findAllUsers
+      responses:
+        '200':
+          description: A list of users
+  /user/{username}:
+    get:
+      tags:
+        - user
+      summary: Get a user by username
+      operationId: findUserByUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A user
+    post:
+      tags:
+        - user
+      summary: Create user. Returns a user if it already exists.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '200':
+          description: success
+
+components:
+  schemas:
+    CreateUser:
+      title: Create User Request Body
+      type: object
+      properties:
+        username:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string

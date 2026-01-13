@@ -5,6 +5,7 @@ plugins {
 	id("io.kotest") version "6.0.7"
 	id("org.springframework.boot") version "4.0.1"
 	id("io.spring.dependency-management") version "1.1.7"
+	id ("org.openapi.generator") version "7.18.0"
 }
 
 group = "com.example"
@@ -65,4 +66,18 @@ kotlin {
 tasks.withType<Test> {
 	useJUnitPlatform()
 	systemProperty("kotest.framework.config.fqn", "com.example.blog.ProjectConfig")
+}
+
+openApiGenerate {
+	generatorName.set("kotlin")
+	inputSpec.set("$rootDir/blog.yaml")
+	outputDir.set(layout.buildDirectory.file("generate-resources").get().asFile.path)
+	apiPackage.set("org.openapi.example.api")
+	invokerPackage.set("org.openapi.example.invoker")
+	modelPackage.set("org.openapi.example.model")
+	configOptions.set(
+		mapOf(
+			"dateLibrary" to "java8"
+		)
+	)
 }
