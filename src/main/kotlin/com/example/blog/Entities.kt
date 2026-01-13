@@ -13,7 +13,7 @@ data class Article(
     val content: String,
     // Used for the foregin key relationship. The AggregateReference
     // stores an ID instead of the user object.
-    @Column("author_id")
+    @Column("AUTHOR_ID")
     val author: AggregateReference<User, Long>,
     // Define fields with default values last, which makes it possible
     // to omit them when using positional arguments.
