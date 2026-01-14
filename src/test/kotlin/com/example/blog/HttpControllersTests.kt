@@ -36,9 +36,9 @@ class HttpControllersTests(
         mockMvc.perform(get("/api/article/").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("\$.[0].author.login").value(johnDoe.username))
+            .andExpect(jsonPath("\$.[0].author.username").value(johnDoe.username))
             .andExpect(jsonPath("\$.[0].slug").value(lorem5Article.slug))
-            .andExpect(jsonPath("\$.[1].author.login").value(johnDoe.username))
+            .andExpect(jsonPath("\$.[1].author.username").value(johnDoe.username))
             .andExpect(jsonPath("\$.[1].slug").value(ipsumArticle.slug))
     }
 
@@ -48,8 +48,8 @@ class HttpControllersTests(
         mockMvc.perform(get("/api/user/").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("\$.[0].login").value(johnDoe.username))
-            .andExpect(jsonPath("\$.[1].login").value(janeDoe.username))
+            .andExpect(jsonPath("\$.[0].username").value(johnDoe.username))
+            .andExpect(jsonPath("\$.[1].username").value(janeDoe.username))
     }
 
 })
