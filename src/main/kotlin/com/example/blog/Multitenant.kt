@@ -42,6 +42,7 @@ class MultitenantConfiguration(
     @Bean
     @ConfigurationProperties(prefix = "tenants")
     fun dataSource(): DataSource {
+
         // Load tenant files using resource resolver instead of using file paths.
         val resolver: ResourcePatternResolver = PathMatchingResourcePatternResolver()
         val resources: Array<Resource>?
@@ -88,14 +89,21 @@ class MultitenantConfiguration(
 
 @Component
 @Order(1)
-internal class TenantFilter : Filter {
+internal class TenantFilter(
+    private val blogProperties: BlogProperties,
+) : Filter {
     @Throws(IOException::class, ServletException::class)
     override fun doFilter(
         request: ServletRequest?, response: ServletResponse?,
         chain: FilterChain
     ) {
         val req = request as HttpServletRequest
-        val tenantName = req.getHeader("X-TenantID")
+        val tenantHeader = req.getHeader("X-TenantID")
+        val tenantName = if (tenantHeader != null) tenantHeader else {
+            val defaultTenant = blogProperties.defaultTenant
+            println("No [X-TenantID] header. Using default tenant: $defaultTenant")
+            defaultTenant
+        }
         TenantContext.setCurrentTenant(tenantName)
 
         try {
