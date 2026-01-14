@@ -2,7 +2,6 @@ package com.example.blog
 
 import com.example.blog.share.api.models.CreateUser
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -44,34 +43,21 @@ class ArticleController(
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(private val repository: UserRepository) {
+class UserController(
+    private val userService: UserService
+) {
 
     @GetMapping("/")
-    fun findAll() = repository.findAll()
+    fun findAll() = userService.getAllUsers()
 
     @GetMapping("/{username}")
     fun findOne(@PathVariable username: String) =
-        repository.findByUsername(username)
+        userService.findUser(username)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist")
 
     @PostMapping("/")
     fun createUser(@RequestBody userDto: CreateUser): User {
-        // TODO: Return the user if it already exists -> Bad solution. But it works for now.
-        //   - In reality we should throw an error if someone tries to create a user
-        //     that already exists -> Verify by test that that is the case.
-        val savedUser = repository.findByUsername(userDto.username) ?: repository.save(userDto.toEntity())
-        // By using ResponseEntity, have control over: status code, headers, body
-        // Returning the object directly serializes the object and returns a 200 OK status
-        // We use this whenever possible, otherwise we use an ResponseEntity.
-        return savedUser
+        return userService.createUser(userDto)
     }
 
-    fun CreateUser.toEntity(): User {
-        return User(
-            username = this.username,
-            firstname = this.firstname,
-            lastname = this.lastname,
-            description = this.description
-        )
-    }
 }
