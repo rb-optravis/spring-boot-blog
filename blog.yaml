@@ -38,6 +38,19 @@ paths:
       responses:
         '200':
           description: A list of users
+    post:
+      tags:
+        - user
+      summary: Create user. Returns a user if it already exists.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '200':
+          description: success
   /user/{username}:
     get:
       tags:
@@ -53,19 +66,6 @@ paths:
       responses:
         '200':
           description: A user
-    post:
-      tags:
-        - user
-      summary: Create user. Returns a user if it already exists.
-      operationId: createUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUser'
-      responses:
-        '200':
-          description: success
 
 components:
   schemas:
@@ -79,3 +79,9 @@ components:
           type: string
         lastname:
           type: string
+        description:
+          type: string
+      required:
+        - username
+        - firstname
+        - lastname
