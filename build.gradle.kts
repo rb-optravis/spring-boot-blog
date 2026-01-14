@@ -39,7 +39,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    // Generated code
+    // Flyway
+    implementation("org.flywaydb:flyway-core:11.20.1")
+    implementation("org.flywaydb:flyway-database-postgresql")
+
+    // Generated code by the OpenAPI plugin
     implementation("jakarta.validation:jakarta.validation-api")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
 
