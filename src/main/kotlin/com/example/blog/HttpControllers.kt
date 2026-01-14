@@ -1,5 +1,6 @@
 package com.example.blog
 
+import com.example.blog.share.api.models.CreateUser
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -73,12 +74,4 @@ class UserController(private val repository: UserRepository) {
             description = this.description
         )
     }
-
-    data class CreateUser(
-        val username: String,
-        val firstname: String,
-        val lastname: String,
-        val description: String? = null,
-    )
-
 }

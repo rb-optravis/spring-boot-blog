@@ -1,5 +1,6 @@
 package com.example.blog
 
+import com.example.blog.share.api.models.CreateUser
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -22,7 +23,7 @@ class MultitenantTests(
 
         // Create one user for each tenant.
         allTenants.forEach { tenantId ->
-            val createUser = UserController.CreateUser(
+            val createUser = CreateUser(
                 username = tenantId,
                 firstname = "test",
                 lastname = "user"

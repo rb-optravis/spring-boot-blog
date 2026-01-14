@@ -1,5 +1,6 @@
 package com.example.blog
 
+import com.example.blog.share.api.models.CreateUser
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -46,7 +47,7 @@ class IntegrationTests(
         // - Security (Check if we are allowed to use the header)
         // - Test is currently polluting the database. Transactional does not work because we are using an HTTP
         //   call.
-        val createUser = UserController.CreateUser(
+        val createUser = CreateUser(
             username = "test_user_123",
             firstname = "test",
             lastname = "user"
